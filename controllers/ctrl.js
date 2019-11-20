@@ -5,6 +5,7 @@ const BASE_URL = "https://api.themoviedb.org/3";
 
 const ctrl = {};
 
+//Mejorar la Paginacón con la query dinámica
 ctrl.index = async function (req, res, next) {
    
     //Este Objeto se llena con los objetos que queremos mostrar.
@@ -15,96 +16,7 @@ ctrl.index = async function (req, res, next) {
     //Acá le agrego un género a la busqueda.
     //filters.with_genres = '28';
 
-    filters.page = 9;
-
-    let query = queryString.stringify(filters);
-
-    await axios.get(`${BASE_URL}/discover/movie/?${query}`)
-        .then(({
-            data
-        }) => {
-            console.log(data.results)
-            //Acá esta el render que mostramos en el index.ejs
-            res.render('index', {
-                movies: data.results,
-            });
-        }).catch((err) => {
-            console.log(err);
-        });
-        
-};
-
-
-ctrl.pagina1 = async function (req, res, next) {
-   
-    //Este Objeto se llena con los objetos que queremos mostrar.
-    let filters = {
-        api_key: API_KEY,
-        language: 'es-ES'
-    };
-    //Acá le agrego un género a la busqueda.
-    //filters.with_genres = '28';
-
-    filters.page = 45;
-
-    let query = queryString.stringify(filters);
-
-    await axios.get(`${BASE_URL}/discover/movie/?${query}`)
-        .then(({
-            data
-        }) => {
-            console.log(data.results)
-            //Acá esta el render que mostramos en el index.ejs
-            res.render('index', {
-                movies: data.results,
-            });
-        }).catch((err) => {
-            console.log(err);
-        });
-        
-};
-
-ctrl.pagina2 = async function (req, res, next) {
-   
-    //Este Objeto se llena con los objetos que queremos mostrar.
-    let filters = {
-        api_key: API_KEY,
-        language: 'pt-BR'
-    };
-    //Acá le agrego un género a la busqueda.
-    //filters.with_genres = '28';
-
-    filters.page = 24;
-
-    let query = queryString.stringify(filters);
-
-    await axios.get(`${BASE_URL}/discover/movie/?${query}`)
-        .then(({
-            data
-        }) => {
-            console.log(data.results)
-            //Acá esta el render que mostramos en el index.ejs
-            res.render('index', {
-                movies: data.results,
-            });
-        }).catch((err) => {
-            console.log(err);
-        });
-        
-};
-
-
-ctrl.pagina3 = async function (req, res, next) {
-   
-    //Este Objeto se llena con los objetos que queremos mostrar.
-    let filters = {
-        api_key: API_KEY,
-        language: 'cn-CN'
-    };
-    //Acá le agrego un género a la busqueda.
-    //filters.with_genres = '28';
-
-    filters.page = 17;
+    filters.page = req.query.pagina;
 
     let query = queryString.stringify(filters);
 
